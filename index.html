@@ -1,0 +1,850 @@
+<!--
+ * @ Author: Maxime Aymonin
+ * @ Create Time: 2022-02-17 21:53:25
+ * @ Modified by: Maxime Aymonin
+ * @ Modified time: 2022-09-09 14:07:12
+ * @ Description: User interface to bluetooth EcoTrap
+ -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="src/ai.css">
+    <link rel="stylesheet" href="src/style.css">
+    
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="ressources/Favicon_SmarTrap.ico">
+
+
+    <title>EcoBelt Bluetooth Toolbox</title>
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                  <i class='bx bx-bug'></i>
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">BLE</span>
+                    <span class="version">Pandawa</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                      <a href="#connection">
+                          <i class='bx bx-bluetooth icon' ></i>
+                          <span class="text nav-text">Connection</span>
+                      </a>
+                    </li>
+                    
+                    <li class="nav-link">
+                        <a href="#dashboard">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#measurements">
+                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <span class="text nav-text">Online</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                      <a href="#configuration">
+                          <i class='bx bx-cog icon'></i>
+                          <span class="text nav-text">Configuration</span>
+                      </a>
+                    </li>
+
+                    <li class="nav-link">
+                      <a href="#alarm">
+                          <i class='bx bx-alarm icon'></i>
+                          <span class="text nav-text">Alarm</span>
+                      </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#ai">
+                            <i class='bx bx-brain icon'></i>
+                            <span class="text nav-text">AI</span>
+                        </a>
+                      </li>
+
+                    <li class="nav-link">
+                      <a href="#location">
+                          <i class='bx bx-map icon'></i>
+                          <span class="text nav-text">Location</span>
+                      </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#alerts">
+                            <i class='bx bx-bell icon'></i>
+                            <span class="text nav-text">Alerts</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
+
+    <main>
+        
+        <section class="blocks" id="connection">
+           
+
+            <div class="text">Connection</div>
+            <div class="connection-container">
+                <div id="connection-btn" class='connection-widget' onclick="connection()">
+                    <i class='bx bx-x-circle connection-button' id="connection-img"></i>
+                </div>
+                <span class='connection-lbl' id='connection-text'>Not connected</span>
+            </div>
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- POPUP QUIZZ -->
+            <section class="modal container">
+           
+                <div class="modal__container" id="modal-container">
+                    <div class="modal__content">
+                        <div class="modal__close close-modal" title="Close">
+                            <i class='bx bx-x'></i>
+                        </div>
+
+                        <h1 class="modal__title">Good Job!</h1>
+                        <p class="modal__description">We have noticed that the number of mosquitoes has decreased significantly. </p>
+                        <p class="modal__description">Do you feel the same? </p>
+                               
+                        <div class="wrapper">
+
+                            <input type="radio" name="select" id="option-1" checked>
+                            <input type="radio" name="select" id="option-2">
+                            <input type="radio" name="select" id="option-3">
+                        
+                            <label for="option-1" class="option option-1" id="radioButton1">
+                            <span> <i class='bx bx-happy-alt icon'></i> </span>
+                            </label>
+                        
+                            <label for="option-2" class="option option-2" id="radioButton2">
+                            <span> <i class='bx bx-confused icon'></i>  </span>
+                            </label>
+                            
+                            <label for="option-3" class="option option-3" id="radioButton3">
+                            <span> <i class='bx bx-angry icon'></i> </span>
+                            </label>
+
+                        </div>
+
+
+                        <button class="modal__button modal__button-OK" id="OKButton">
+                            OK
+                        </button>
+                    
+                        
+                        <button class="modal__button-link" id="moreInfoButton">
+                            <u> More info </u>
+                        </button>
+
+                        <p class="modal__info" id = "modal_Info1" >How do you feel about the mosquito population ? Do you still get bitten so much ? <br>
+                            Your response allows us to validate the choices made by artificial intelligence and thus improve the efficiency of your smart trap.</p>
+
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </section>
+
+        <section class="blocks" id="dashboard">
+            <div class="text" id="dashboard-title">Dashboard</div>
+
+            <div class="horizontal-container measurements">
+                <div id="temperature">
+                    <i class='bx bxs-thermometer dashboard-icon' ></i>
+                    <span id="temperature-value" class="inner-text">.. °C</span>
+                </div>
+                
+                <div id="humidity">
+                    <i class='bx bx-droplet dashboard-icon' ></i>
+                    <span id="humidity-value" class="inner-text">.. %</span>
+                </div>
+
+                <div id="mosquitoes">
+                    <i class='bx bx-bug dashboard-icon' ></i>
+                    <span id="mosquitoes-value" class="inner-text">...</span>
+                </div>
+            </div>
+
+            <div class="horizontal-container measurements">
+
+                <div id="manual-btn" onclick="funcModeManual()">
+                    <i class='bx bx-mouse dashboard-icon clickable' id="manual-img"></i>
+                    <div class="center btn-text">MANUAL</div>
+                </div>
+
+                <div id="auto-btn" onclick="funcModeAuto()">
+                    <i class='bx bx-font dashboard-icon clickable' id="auto-img"></i>
+                    <div class="center btn-text">AUTO</div>
+                </div>
+
+                <div id="ai-btn" onclick="funcModeAI()">
+                    <i class='bx bx-brain dashboard-icon clickable' id="ai-img"></i>
+                    <div class="center btn-text">SMART</div>
+                </div>
+
+
+            </div>
+
+            <div class="horizontal-container measurements">
+                <div id="fan-btn" onclick="fan()">
+                    <i class='bx bx-analyse dashboard-icon clickable' id="fan-img"></i>
+                    <div class="center btn-text">
+                        FAN
+                    </div>
+                    <i class='bx bx-lock dashboard-icon locker' id="lock-img"></i>
+                </div>
+                
+                <div id="co2-btn" onclick="co2()">
+                    <i class='bx bxs-flame dashboard-icon clickable' id="co2-img" ></i>
+                    <div class="center btn-text">
+                        CO2
+                    </div>
+                    <i class='bx bx-lock dashboard-icon locker' id="lock-img"></i>
+                </div>
+
+                <div id="light-btn" onclick="light()">
+                    <i class='bx bx-bulb dashboard-icon clickable' id="light-img" ></i>
+                    <div class="center btn-text">
+                        LIGHT
+                    </div>
+                    <i class='bx bx-lock dashboard-icon locker' id="lock-img"></i>
+                </div>
+            </div>
+
+            <div class="block-footer horizontal-container">
+                <span id="machineID" class="btn-text">Machine n°?</span>
+                <span id="voltage-value" class="btn-text">Voltage ??.?V</span>
+                <span id="networkID" class="btn-text">Network n°?</span>
+            </div>
+        </section>
+
+
+        <section class="blocks" id="measurements">
+            <div class="text">Online</div>
+            <div class="inner-container horizontal-container">
+                <div class="">
+                    <input type="text" id="ssid">SSID</input>
+                    <input type="password" id="password">Password</input>
+                </div>
+                <button class="save-button" onclick="saveOnline()">Save</button>
+            </div>
+
+        </section>
+
+
+
+        <section class="blocks" id="configuration">
+            <div class="text">Configuration</div>
+            <div class="config-container" id="config-container">
+                <div class="inner-container" id="ranges">
+                    <div class="temp-ranges inner-container" id="temperature-ranges">
+                        <div class="ranges-title">
+                            Temperature °C
+                        </div>
+                        <div id="temp-min" class="num-input">
+                            <label class="btn-text" for="temp-min-input">Minimum</label>
+                            <div>
+                                <button class="range-btn" onclick="dec('min-temp')">-</button>
+                                <input id="temp-min-input" type="number" min="0" max="50" step="0.5" value="18">
+                                <button class="range-btn" onclick="inc('min-temp')">+</button>
+                            </div>
+                        </div>
+                        <div id="temp-max" class="num-input">
+                            <label class="btn-text" for="temp-max-input">Maximum</label>
+                            <div>
+                                <button class="range-btn" onclick="dec('max-temp')">-</button>
+                                <input id="temp-max-input" type="number" min="0" max="50" step="0.5" value="35">
+                                <button class="range-btn" onclick="inc('max-temp')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temp-ranges inner-container" id="humidity-ranges">
+                        <div class="ranges-title">
+                            Humidity %
+                        </div>
+                        <div id="humidity-min" class="num-input">
+                            <label class="btn-text" for="hum-min-input">Minimum</label>
+                            <div>
+                                <button class="range-btn" onclick="dec('min-hum')">-</button>
+                                <input id="hum-min-input" type="number" min="0" max="100" step="1" value="20">
+                                <button class="range-btn" onclick="inc('min-hum')">+</button>
+                            </div>
+                        </div>
+                        <div id="hum-max" class="num-input">
+                            <label class="btn-text" for="hum-max-input">Maximum</label>
+                            <div>
+                                <button class="range-btn" onclick="dec('max-hum')">-</button>
+                                <input id="hum-max-input" type="number" min="0" max="100" step="1" value="90">
+                                <button class="range-btn" onclick="inc('max-hum')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="temp-tanges inner-container" id="ids">
+                    <div class="ranges-title">
+                        Identifiers
+                    </div>
+                    <div id="network-id" class="num-input">
+                        <label class="btn-text" for="network-input">Network</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('network-id')">-</button>
+                            <input id="network-input" type="number" min="0" max="255" step="1" value="255">
+                            <button class="range-btn" onclick="inc('network-id')">+</button>
+                        </div>
+                    </div>
+                    <div id="machine-id" class="num-input">
+                        <label class="btn-text" for="machine-input">Machine</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('machine-id')">-</button>
+                            <input id="machine-input" type="number" min="0" max="255" step="1" value="255">
+                            <button class="range-btn" onclick="inc('machine-id')">+</button>
+                        </div>
+                    </div>
+                    <div id="childs-counter" class="num-input">
+                        <label class="btn-text" for="chlids-input">Childs</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('childs-counter')">-</button>
+                            <input id="childs-input" type="number" min="0" max="255" step="1" value="0">
+                            <button class="range-btn" onclick="inc('childs-counter')">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-container" id="timers">
+                    <div class="ranges-title">
+                        Measurements period
+                    </div>
+                    <div id="measurements-period" class="num-input">
+                        <label class="btn-text" for="measurements">Seconds</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('measurements')">-</button>
+                            <input id="measurements-input" type="number" min="0" max="360" step="1" value="5">
+                            <button class="range-btn" onclick="inc('measurements')">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ranges-title">
+                        Co2 config
+                    </div>
+                    <div id="co2-config" class="num-input">
+                        <label class="btn-text" for="freq">Frequency (/min)</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('freq')">-</button>
+                            <input id="freq-input" type="number" min="1" max="255" step="1" value="4">
+                            <button class="range-btn" onclick="inc('freq')">+</button>
+                        </div>
+                    </div>
+                    <div id="co2-config" class="num-input">
+                        <label class="btn-text" for="level">Level (ml/min)</label>
+                        <div>
+                            <button class="range-btn" onclick="dec('level')">-</button>
+                            <input id="level-input" type="number" min="25" max="1000" step="5" value="100">
+                            <button class="range-btn" onclick="inc('level')">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-container">
+                    <button class="save-button big-btn" onclick="resetMosquitoCounter()">Reset Mosquito Counter</button>
+                    <button class="save-button" onclick="saveConfig()">Save</button>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="blocks" id="alarm">
+            <div class="text">Alarms</div>
+            <div class="alarms-container">
+                    <div>
+                        <input type="checkbox" id="setAlarm1" onclick="setAlarm1()">Change alarm 1</input>
+                    </div>
+                    <div id="alarm1div">
+                        <div style="margin-top:10px;margin-bottom: 10px;">
+                        <label for="start">Start time 1:</label>
+                        <input type="time" id="start1" step="1">
+        
+                        <label for="end">End time 1:</label>
+                        <input type="time" id="end1" step="1">
+        
+                        <label class="switch">
+                            <input type="checkbox" id="alarm1Switch" onchange="disableAlarm1()">
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <table>
+                            <tr>
+                            <td style="width: 10%;">Mon</td>
+                            <td style="width: 10%;">Tue</td>
+                            <td style="width: 10%;">Wed</td>
+                            <td style="width: 10%;">Thu</td>
+                            <td style="width: 10%;">Fri</td>
+                            <td style="width: 10%;">Sat</td>
+                            <td style="width: 10%;">Sun</td>
+                            </tr>
+                            <tr>
+                            <td><input type="checkbox" id="mon1"></td>
+                            <td><input type="checkbox" id="tue1"></td>
+                            <td><input type="checkbox" id="wed1"></td>
+                            <td><input type="checkbox" id="thu1"></td>
+                            <td><input type="checkbox" id="fri1"></td>
+                            <td><input type="checkbox" id="sat1"></td>
+                            <td><input type="checkbox" id="sun1"></td>
+                            </tr>
+                        </table> 
+                    </div> 
+                </div>        
+            
+        
+                <div>
+                    <input type="checkbox" id="setAlarm2" onclick="setAlarm2()">Change alarm 2</input>
+                </div>
+                <div id="alarm2div">
+                    <div style="margin-top:10px;margin-bottom: 10px;">
+                        <label for="start">Start time 2:</label>
+                        <input type="time" id="start2" step="1">
+            
+                        <label for="end">End time 2:</label>
+                        <input type="time" id="end2" step="1">
+            
+                        <label class="switch">
+                            <input type="checkbox" id="alarm2Switch" onchange="disableAlarm2()">
+                            <span class="slider round">
+                            </span>
+                        </label>
+                    </div>
+                    <div>
+                        <table>
+                            <tr>
+                            <td style="width: 10%;">Mon</td>
+                            <td style="width: 10%;">Tue</td>
+                            <td style="width: 10%;">Wed</td>
+                            <td style="width: 10%;">Thu</td>
+                            <td style="width: 10%;">Fri</td>
+                            <td style="width: 10%;">Sat</td>
+                            <td style="width: 10%;">Sun</td>
+                            </tr>
+                            <tr>
+                            <td><input type="checkbox" id="mon2"></td>
+                            <td><input type="checkbox" id="tue2"></td>
+                            <td><input type="checkbox" id="wed2"></td>
+                            <td><input type="checkbox" id="thu2"></td>
+                            <td><input type="checkbox" id="fri2"></td>
+                            <td><input type="checkbox" id="sat2"></td>
+                            <td><input type="checkbox" id="sun2"></td>
+                            </tr>
+                        </table>          
+                    </div>
+                </div>
+                <div>
+                    <button onClick='setTimes()' class="save-button">set times</button>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        <section class="blocks" id="ai">
+            <div class="text">Artificial Intelligence</div>
+
+            
+                <!-- POPUP info treshold -->
+                <div class="modal-container" id="InfoTreshold-container">
+                    <div class="modal-content">
+                        <div class="modal-close close-ai-modal" title="Close">
+                            <i class='bx bx-x'></i>
+                        </div>
+
+                        <h1 class="modal-title"> Treshold 1 </h1>
+                        <p class="modal-description"> This threshold corresponds to the decrease in mosquitoes compared 
+                            to the initial mosquito population. 
+                            <br> Once this threshold is reached, 
+                            we go from high Co2 flux mode to medium Co2 flux mode. 
+                            <br> Recommended value: 50%. </p>
+
+                        <h1 class="modal-title"> Treshold 2 </h1>
+                        <p class="modal-description"> Same as for threshold 1, 
+                            but this time we switch from medium Co2 flux mode to small Co2 flux mode. 
+                            <br> Recommended value: 75%. </p>
+                        
+                        <h1 class="modal-title"> Treshold ON </h1>
+                        <p class="modal-description"> Threshold from which the trap starts depending on the number 
+                            of mosquitoes caught in the last 7 days. </p>
+
+                        <h1 class="modal-title"> Impact Coefficient </h1>
+                        <p class="modal-description"> How much the current daily data impact the 7 last days. </p>
+                    
+                        <h1 class="modal-title"> Random Coefficient </h1>
+                        <p class="modal-description"> How often you want to add a perturbation in your system. </p>
+
+                    </div>
+                </div>
+
+                <!-- Treshold 1 Slider part -->
+                <div class="config-ai-container">
+
+                    <div class="slider-big-container">
+                        <div class ="title-info-container">
+                            <div class="title-ai" id="tresh1"> Threshold 1 </div>
+                            <i class='bx bx-info-circle icon clickable' onclick="showInfoAI()"></i>
+                        </div>
+                        <div class = "donut-slider-container">
+                            <div class="donut-chart-block block">
+                                <div class="donut-chart">
+                                    <div id="section1" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section2" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section3" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div class="center">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-slider" id = "slider1">
+                                <input type="range" orient="vertical" min="10" max="80"id = "input1" />
+                                <div class="range-slider__bar"></div>
+                                <div class="range-slider__thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Treshold 2 Slider part -->
+                    <div class="slider-big-container">
+                        <div class ="title-info-container">
+                            <div class="title-ai"> Threshold 2 </div>
+                            <i class='bx bx-info-circle icon clickable' onclick="showInfoAI()"></i>
+                        </div>
+                        <div class="donut-slider-container">
+                            <div class="donut-chart-block block">
+                                <div class="donut-chart">
+                                    <div id="section1" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section2" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section3" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div class="center">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-slider" id = "slider2">
+                                <input type="range" orient="vertical" min="20" max="90" id = "input2"/>
+                                <div class="range-slider__bar"></div>
+                                <div class="range-slider__thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- Treshold ON Slider part -->
+                    <div class="slider-big-container">
+                        <div class ="title-info-container">
+                            <div class="title-ai"> Threshold ON </div>
+                            <i class='bx bx-info-circle icon clickable' onclick="showInfoAI()"></i>
+                        </div>
+                        <div class = "donut-slider-container">
+                            <div class="donut-chart-block block">
+                                <div class="donut-chart">
+                                    <div id="section1" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section2" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section3" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div class="center">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-slider" id = "slider3">
+                                <input type="range" orient="vertical" min="10" max="90" id = "inputOn"/>
+                                <div class="range-slider__bar"></div>
+                                <div class="range-slider__thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="config-ai-container">
+                    <!-- Random Coefficient Slider part -->
+                    <div class="slider-big-container">
+                        <div class ="title-info-container">
+                            <div class="title-ai"> Ramdom Coefficient </div>
+                            <i class='bx bx-info-circle icon clickable' onclick="showInfoAI()"></i>
+                        </div>
+                        <div class="donut-slider-container">
+                            <div class="donut-chart-block block">
+                                <div class="donut-chart">
+                                    <div id="section1" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section2" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section3" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div class="center">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-slider" id = "sliderRandomCoeff">
+                                <input type="range" orient="vertical" min="50" max="100" id = "input2"/>
+                                <div class="range-slider__bar"></div>
+                                <div class="range-slider__thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- Impact Coefficient Slider part -->
+                    <div class="slider-big-container">
+                        <div class ="title-info-container">
+                            <div class="title-ai"> Impact Coefficient </div>
+                            <i class='bx bx-info-circle icon clickable' onclick="showInfoAI()"></i>
+                        </div>
+                        <div class = "donut-slider-container">
+                            <div class="donut-chart-block block">
+                                <div class="donut-chart">
+                                    <div id="section1" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section2" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div id="section3" class="clip">
+                                        <div class="item"></div>
+                                    </div>
+                                    <div class="center">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-slider" id="sliderImpactCoeff">
+                                <input type="range" orient="vertical" min="10" max="90" id = "inputOn"/>
+                                <div class="range-slider__bar"></div>
+                                <div class="range-slider__thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="button-ai-confing-container">
+                    <button class="default-save-ai-button ai-config-button" id="ai-apply" onclick="apply()">
+                        Apply
+                    </button>
+                </div>
+
+
+
+              
+                
+        
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section class="blocks" id="location">
+            <div class="text">Location</div>
+            <div class="alarms-container">
+                <div style="margin-top:10px;margin-bottom: 10px;">
+                    <button onClick='geoFindMe()' id = "find-me" class="save-button location">Save current location</button><br/>
+                </div>
+                <div class="mapouter" style="display: flex;justify-content: center;">
+                    <div class="gmap_canvas">
+                    <iframe width="600" height="500" id="gmap_canvas" 
+                    src="https://maps.google.com/maps?q=0,0&maptype=satellite&z=1&output=embed" 
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                    </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section class="blocks" id="alerts">
+            <div class="text">Alerts</div>
+
+            <div class="alerts-container">
+                <div class="alerts-text" id = "deadTrap">  </div>
+            </div>
+            <div class="alerts-container">
+                <div class="alerts-text" id = "deadCo2">  </div>
+            </div>
+            <div class="alerts-container">
+                <div class="alerts-text" id = "deadBat">  </div>
+            </div>
+            <div class="alerts-container">
+                <div class="alerts-text" id = "deadFan">  </div>
+            </div>
+        </section>
+    
+    </main>
+
+    <script>
+        /* light/Dark mode management */
+        const body = document.querySelector('body'),
+        sidebar = body.querySelector('nav'),
+        toggle = body.querySelector(".toggle"),
+        modeSwitch = body.querySelector(".toggle-switch"),
+        modeText = body.querySelector(".mode-text");
+
+        toggle.addEventListener("click" , () =>{
+            sidebar.classList.toggle("close");
+        })
+
+        modeSwitch.addEventListener("click" , () =>{
+            body.classList.toggle("dark");
+            
+            if(body.classList.contains("dark")){
+                modeText.innerText = "Light mode";
+            }else{
+                modeText.innerText = "Dark mode";
+                
+            }
+        });
+    </script>
+
+    <script type="text/javascript" src="src/scripts/global_declarations.js"></script>
+    <script type="text/javascript" src="src/scripts/AI.js"></script>
+    <script type="text/javascript" src="src/scripts/alerts.js"></script>
+    <script type="text/javascript" src="src/scripts/appli.js"></script>
+    <script type="text/javascript" src="src/scripts/connection.js"></script>
+    <script type="text/javascript" src="src/scripts/dashboard.js"></script>
+    <script type="text/javascript" src="src/scripts/config.js"></script>
+    <script type="text/javascript" src="src/scripts/alarms.js"></script>
+    <script type="text/javascript" src="src/scripts/position.js"></script>
+    <script type="text/javascript" src="src/scripts/online.js"></script>
+    
+
+</body>
+</html>
