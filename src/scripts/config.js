@@ -2,7 +2,7 @@
  * @ Author: Maxime Aymonin
  * @ Create Time: 2022-07-02 12:06:15
  * @ Modified by: Maxime Aymonin
- * @ Modified time: 2022-09-09 14:15:11
+ * @ Modified time: 2022-09-09 14:35:21
  * @ Description: Configuration part of the web interface to an EcoTrap
  */
 
@@ -236,7 +236,7 @@ async function saveConfig()
   console.log(sensorsWord)
 
   //CO2 freq
-  generalWord[0] = CO2freq;
+  generalWord[1] = CO2freq;
 
   //Netword ID
   generalWord[2] = networkId;
